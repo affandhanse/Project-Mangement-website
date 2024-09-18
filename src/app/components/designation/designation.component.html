@@ -1,0 +1,23 @@
+<div class="row">
+  @if (isLoader == true){
+    <div class="col-12 d-flex align-items-center mt-4" style="justify-content: center;">
+      <div class="spinner-border text-primary mt-4" role="status" >
+      </div>
+    </div>
+  }@else {
+    
+    @for (item of designationList; track $index) {
+      <div class="col-3">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">{{item.designation}}</h4>
+              <p class="card-text">Some example text. Some example text.</p>
+              <a href="#" class="card-link">Edit</a>
+              <a href="#" class="card-link">Delete</a>
+            </div>
+          </div>
+        </div>
+  }
+  }
+
+</div>

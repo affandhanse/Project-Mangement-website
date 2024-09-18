@@ -1,0 +1,126 @@
+<app-alerts [alertType]="'Error'" [message]="'You fucked Up.'"></app-alerts>
+<div class="row">
+  <div class="col-8">
+    <div class="card">
+      <div class="card-header bg-success">Client List {{firstName()}}
+        <button class="btn btn-danger" (click)="changeFirstName()"> Change firstName</button>
+      </div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <td>Sr No</td>
+              <td>Company Name</td>
+              <td>Project Name</td>
+              <td>Employee Name</td>
+              <td>Start Date</td>
+              <td>End date</td>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of projectList() ; track $index) {
+              @if ($index < 10) {
+                <tr>
+                  <td>{{$index + 1}}</td>
+                  <td>{{item.clientName}}</td>
+                  <td>{{item.projectName}}</td>
+                  <td>{{item.empName}}</td>
+                  <td>{{item.startDate | date: "dd-mm-yy" }}</td>
+                  <td>{{item.expectedEndDate  | date: "dd-mm-yy"}}</td>
+                  </tr>
+              }
+             
+            }
+           
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="card">
+      <div class="card-header bg-success">New Project</div>
+      <div class="card-body">
+        <form [formGroup]="projectForm">
+            <div class="row">
+                <div class="col-6">
+                  <label for="">Project Name</label>
+                  <input type="text" formControlName="projectName" class="form-control" />
+                  @if (projectForm.controls['projectName'].touched) {
+                    <div class="text-danger">
+                        @if (projectForm.controls['projectName'].errors?.['required']) {
+                            <span>This is Required</span>
+                        }
+                        @if (projectForm.controls['projectName'].errors?.['minlength']) {
+                            <span>Min length 4 characters</span>
+                        }
+                      </div>
+                  }
+                 
+                </div>
+                <div class="col-6">
+                  <label for="">Start Date</label>
+                  <input type="date" formControlName="startDate" class="form-control" />
+                </div>
+                <div class="col-6">
+                  <label for="">Contact Name</label>
+                  <input type="text" formControlName="contactPerson" class="form-control" />
+                </div>
+                <div class="col-6">
+                  <label for="">Expected End Date</label>
+                  <input type="date" formControlName="expectedEndDate" class="form-control" />
+                </div>
+                <div class="col-6">
+                  <label for="">Contact Mobile</label>
+                  <input type="text" formControlName="contactPersonContactNo" class="form-control"  />
+                </div>
+                <div class="col-6">
+                  <label for="">Contact Email</label>
+                  <input type="text" formControlName="contactPersonEmailId" class="form-control" />
+                </div>
+                <div class="col-6">
+                  <label for="">Total Employee Count</label>
+                  <input type="textarea" formControlName="totalEmpWorking" class="form-control"/>
+                </div>
+                <div class="col-6">
+                  <label for="">Project Costing</label>
+                  <input type="text" formControlName="projectCost" class="form-control"/>
+                </div>
+                <div class="col-12">
+                  <label for="">Project Description</label>
+                  <textarea formControlName="projectDetails" class="form-control"></textarea>
+                </div>
+                <div class="col-6">
+                  <label for="">Select Client</label>
+                  <select class="form-control" formControlName="clientId">
+                    <option value="">Select Client</option>
+                    @for (item of clientList; track $index) {
+                        <option [value]="item.clientId">{{item.companyName}}</option>
+                      }
+                  </select>
+                </div>
+                <div class="col-6">
+                    <label for="">Lead By</label>
+                    <select class="form-control" formControlName="leadByEmpId">
+                      <option value="">Select Employee</option>
+                      @for (item of employeeList; track $index) {
+                        <option [value]="item.empId">{{item.empName}} - {{item.empCode}}</option>
+                      }
+                    </select>
+                  </div>
+    
+                <div class="row pt-2">
+                  <div class="col-6 text-center">
+                    <button class="btn btn-success" [disabled]="projectForm.invalid" (click)="onSaveForm()">Submit</button>
+                  </div>
+                  <div class="col-6 text-center">
+                    <button class="btn btn-secondary">Reset</button>
+                  </div>
+                </div>
+              </div>
+        </form>
+      
+      </div>
+    </div>
+  </div>
+</div>
